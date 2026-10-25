@@ -1,0 +1,24 @@
+#
+# Copyright (C) 2026 The Android Open Source Project
+# Copyright (C) 2026 LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Import common mainline Qualcomm init services
+import /vendor/etc/init/hw/init.mainline.qcom.rc
+
+on fs
+    # Mount partitions without latemount
+    mount_all /vendor/etc/fstab.nokia-pl2 --early
+
+on post-fs
+    # Load mainline kernel modules
+    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -s -d /vendor/lib/modules --all=/vendor/etc/modules.load.normal
+
+on late-fs
+    # Mount userdata and partitions requiring fsck
+    mount_all /vendor/etc/fstab.nokia-pl2 --late
+
+on init
+    # Configure USB gadget controller (DWC3 controller on SDM630)
+    setprop sys.usb.controller a800000.dwc3

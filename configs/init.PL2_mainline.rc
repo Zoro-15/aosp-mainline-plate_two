@@ -1,0 +1,15 @@
+#
+# Copyright (C) 2026 The Android Open Source Project
+# Copyright (C) 2026 LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+on early-init
+    # Set up early log and node directories if needed
+
+on init
+    # Configure USB gadget controller if matching
+    setprop sys.usb.controller a800000.dwc3
+
+on boot
+    # Basic services setup
