@@ -4,15 +4,16 @@
     "target_path": "device/mainline/common"
   },
   {
-    "repository": "me-cafebabe-aosp-mainline/android_device_mainline_qcom-common",
-    "target_path": "device/mainline/qcom-common"
-  },
-  {
     "repository": "me-cafebabe-aosp-mainline/android_hardware_mainline_common",
     "target_path": "hardware/mainline/common"
   },
   {
-    "repository": "me-cafebabe-aosp-mainline/android_hardware_mainline_qcom",
-    "target_path": "hardware/mainline/qcom"
+    "repository": "me-cafebabe-aosp-mainline/android_kernel_mainline_configs",
+    "target_path": "kernel/mainline/configs"
+  },
+  {
+    "repository": "Zoro-15/android_kernel_nokia_sdm630-mainline",
+    "target_path": "kernel/nokia/sdm630-mainline",
+    "branch": "qcom-sdm660-7.2.y"
   }
 ]

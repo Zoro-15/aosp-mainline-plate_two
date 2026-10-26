@@ -9,5 +9,7 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/lineage_PL2_mainline.mk
 
 COMMON_LUNCH_CHOICES := \
-    aosp_PL2_mainline-userdebug \
-    lineage_PL2_mainline-userdebug
+    lineage_PL2_mainline-ap2a-userdebug \
+    aosp_PL2_mainline-ap2a-userdebug \
+    lineage_PL2_mainline-userdebug \
+    aosp_PL2_mainline-userdebug

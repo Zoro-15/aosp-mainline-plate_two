@@ -6,10 +6,16 @@
 
 DEVICE_PATH := device/nokia/PL2_mainline
 
-# Identify device
+# 1. Identify device
 USES_DEVICE_NOKIA_PL2_MAINLINE := true
 
-# Architecture
+# 2. Variables read by common board config
+TARGET_INITIAL_BRINGUP := true
+
+# 3. Inherit Common Board configs from mainline framework
+-include device/mainline/common/BoardConfigMainlineCommon.mk
+
+# 4. Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
@@ -20,9 +26,8 @@ TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
-
-# Bringup mode (permissive SELinux, serial/fb console, basic graphics)
-TARGET_INITIAL_BRINGUP := true
+TARGET_SUPPORTS_64_BIT_APPS := true
+TARGET_MAX_PAGE_SIZE_SUPPORTED := 65536
 
 # Assertions
 TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
@@ -46,7 +51,7 @@ BOARD_USES_RECOVERY_AS_BOOT := true
 TARGET_KERNEL_SOURCE := kernel/nokia/sdm630-mainline
 TARGET_KERNEL_ARCH := arm64
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
-TARGET_KERNEL_CONFIG := defconfig
+TARGET_KERNEL_CONFIG := sdm660_defconfig
 TARGET_KERNEL_DTB := sdm630-nokia-pl2.dtb
 
 # Android Mainline Configuration Fragments
@@ -66,9 +71,13 @@ BOARD_KERNEL_CMDLINE += \
     androidboot.hardware=nokia-pl2 \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
-    earlycon=msm_geni_serial,0x0c280000 \
+    androidboot.usbcontroller=a800000.dwc3 \
+    earlycon \
     console=tty0 \
-    console=ttyMSM0,115200n8
+    console=ttyMSM0,115200n8 \
+    clk_ignore_unused \
+    pd_ignore_unused \
+    firmware_class.path=/vendor/firmware/
 
 # Partitions (A/B layout, sizes from device GPT)
 AB_OTA_UPDATER := true
@@ -83,11 +92,8 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
 BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_COPY_OUT_VENDOR := vendor
 BOARD_USES_METADATA_PARTITION := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
-
-# Inherit Common Board configs from mainline framework
--include device/mainline/common/BoardConfigMainlineCommon.mk
--include device/mainline/qcom-common/BoardConfigMainlineQcomCommon.mk

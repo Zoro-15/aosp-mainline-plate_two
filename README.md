@@ -1,36 +1,69 @@
-# Nokia 6.1 (PL2) Mainline Device Tree
+# Android device tree for Nokia 6.1 (PL2) running mainline kernel
 
-This device tree is designed to boot upstream mainline Linux on the Nokia 6.1 (`PL2` / `Plate2` / `PL2_sprout`) with Android 17 (LineageOS 24.0) using the [me-cafebabe-aosp-mainline](https://github.com/me-cafebabe-aosp-mainline) common framework.
+The Nokia 6.1 (2018, codename `PL2` / `Plate2` / `PL2_sprout`) is a Qualcomm Snapdragon 630 smartphone. This tree ports upstream Linux (6.x/7.x) and Android 17 (LineageOS 24.0) using the `me-cafebabe-aosp-mainline` common framework.
 
-## Device Specifications
+## Status
 
-| Feature | Specification |
-|:---|:---|
-| **SoC** | Qualcomm Snapdragon 630 (`sdm630`) |
-| **CPU** | 8x ARM Cortex-A53 up to 2.2 GHz |
-| **GPU** | Qualcomm Adreno 508 (Open-source Mesa Freedreno) |
-| **Memory** | 3GB / 4GB LPDDR4 |
-| **Storage** | 32GB / 64GB eMMC 5.1 |
-| **Display** | 1080 x 1920 IPS LCD (420 dpi) |
-| **Partition Scheme** | A/B (System-as-root, non-dynamic) |
+| Feature | Works | Notes |
+|---------|-------|-------|
+| Boot | yes | Stage 2 bringup using `qcom-sdm660-7.2.y` |
+| Display | yes | Simple framebuffer console (`simple-framebuffer@9D400000`) |
+| Touch | | Synaptics touch on I2C |
+| Audio | | WCD9335 codec via Soundwire/SLIMbus |
+| Wi-Fi / Bluetooth | | WCN3990 via smd-rpm |
+| Camera | | Camera sensor interface |
+| Modem | | Qualcomm MDM / Hexagon DSPs |
+| Charging | | SMB1351 / PM660 charger |
 
-## Partition Layout
+## Before flashing the Android build
 
-* **boot**: 64 MB (`/dev/block/by-name/boot_{a,b}`)
-* **system**: ~3.0 GB (`/dev/block/by-name/system_{a,b}`)
-* **vendor**: 1.0 GB (`/dev/block/by-name/vendor_{a,b}`)
-* **metadata**: Repurposed `logdump` partition (`/dev/block/by-name/logdump`)
-* **userdata**: Remaining disk (`/dev/block/by-name/userdata`)
+1. Unlock the bootloader via official or EDL test-point unlock.
+2. For initial bringup testing, do not flash directly to partition storage. Boot temporarily via fastboot: `fastboot boot out/target/product/PL2_mainline/boot.img`.
 
-## Bringup Stages
+## Additional repositories required to build
 
-This tree starts at **Stage 1 (Skeleton)** with `TARGET_INITIAL_BRINGUP := true`.
+| Path | Source |
+|------|--------|
+| `kernel/nokia/sdm630-mainline` | `https://github.com/Zoro-15/android_kernel_nokia_sdm630-mainline` (branch: `qcom-sdm660-7.2.y`) |
+| `device/mainline/common` | `https://github.com/me-cafebabe-aosp-mainline/android_device_mainline_common` (branch: `lineage-24.0`) |
+| `hardware/mainline/common` | `https://github.com/me-cafebabe-aosp-mainline/android_hardware_mainline_common` (branch: `lineage-24.0`) |
+| `kernel/mainline/configs` | `https://github.com/me-cafebabe-aosp-mainline/android_kernel_mainline_configs` (branch: `lineage-24.0`) |
 
-1. **Stage 1:** Skeleton compiles cleanly under AOSP / LineageOS build system.
-2. **Stage 2:** Mainline kernel boots (serial log or early display via simplefb/drm).
-3. **Stage 3:** First-stage init mounts `/system`, `/vendor`, and `/metadata`.
-4. **Stage 4:** USB ADB shell or serial root shell access achieved.
-5. **Stage 5:** Display boot animation via software rendering / Freedreno.
-6. **Stage 6:** Peripherals enabled (touchscreen, Wi-Fi, audio).
-7. **Stage 7:** SELinux transitioned from permissive to enforcing.
-8. **Stage 8:** `TARGET_INITIAL_BRINGUP` removed; production ready.
+## Android platform patches
+
+| Commit name | Purpose | Source |
+|-------------|---------|--------|
+| `jniClatCoordinator: Do not crash on BPF SELinux context mismatch` | Prevent boot crash on Linux 7.2+ kernels | `https://review.lineageos.org/c/LineageOS/android_packages_modules_Connectivity/+/494663` |
+
+## Kernel
+
+Apply the patches in
+`device/mainline/common/docs/KERNEL_PATCHES.md`.
+
+Device specific:
+
+| Commit name | Purpose | Source |
+|-------------|---------|--------|
+| `arm64: dts: qcom: sdm630-nokia-pl2: Add simple-framebuffer node` | Framebuffer console at `0x9D400000` | In-tree (`qcom-sdm660-7.2.y`) |
+| `arm64: dts: qcom: sdm630-nokia-pl2: Add ramoops pstore reserve` | Pstore crash logging at `0xACB00000` | In-tree (`qcom-sdm660-7.2.y`) |
+| `arm64: dts: qcom: sdm630-nokia-pl2: Set Qualcomm board and MSM IDs` | Nokia ABOOT validation (`qcom,board-id = <0x08 0x00>`) | In-tree (`qcom-sdm660-7.2.y`) |
+
+## Build
+
+```bash
+breakfast PL2_mainline
+m bootimage
+```
+
+## Install
+
+Put the Nokia 6.1 into Fastboot mode (**Volume Down + Power**):
+
+```bash
+fastboot boot out/target/product/PL2_mainline/boot.img
+```
+
+## Known issues
+
+- Initial bringup runs with `TARGET_INITIAL_BRINGUP := true` (permissive SELinux).
+- Display currently relies on bootloader framebuffer handover (`fbcon`) until Mesa Freedreno DRM KMS pipeline is configured in Stage 5.

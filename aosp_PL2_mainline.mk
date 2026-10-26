@@ -4,6 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Inherit 64-bit core
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+
 # Inherit from device configuration
 $(call inherit-product, device/nokia/PL2_mainline/device.mk)
 

@@ -1,2 +1,3 @@
 # Firmware directories for Nokia 6.1 Mainline
 firmware_directories /vendor/firmware/ /firmware/image/
+modalias_handling enabled

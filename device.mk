@@ -11,7 +11,10 @@ TARGET_INITIAL_BRINGUP ?= true
 
 # Inherit common mainline configurations
 $(call inherit-product, device/mainline/common/mainline_common.mk)
--include device/mainline/qcom-common/mainline_qcom-common.mk
+
+# Page size configuration
+PRODUCT_PAGE_SIZE_AGNOSTIC := false
+PRODUCT_MAX_PAGE_SIZE_SUPPORTED := 65536
 
 # Dalvik / Art heap
 $(call inherit-product, frameworks/native/build/phone-xhdpi-4096-dalvik-heap.mk)
@@ -22,13 +25,15 @@ TARGET_SCREEN_HEIGHT := 1920
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
-# Fastbootd
+# Packages & Memfd (pristine/community kernel support)
 PRODUCT_PACKAGES += \
-    fastbootd
+    fastbootd \
+    use_memfd.rc
 
 # Soong Namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(DEVICE_PATH)
+    $(DEVICE_PATH) \
+    kernel/mainline/configs
 
 # Init scripts & fstab
 PRODUCT_COPY_FILES += \
@@ -36,6 +41,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RAMDISK)/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.nokia-pl2.rc \
+    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/init.recovery.nokia-pl2.rc \
     $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
 # Shipping API & Relaxed VINTF for initial bringup

@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Import common mainline Qualcomm init services
-import /vendor/etc/init/hw/init.mainline.qcom.rc
+# Import common mainline init services
+import /vendor/etc/init/hw/init.mainline.rc
 
 on fs
     # Mount partitions without latemount
