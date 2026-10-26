@@ -65,9 +65,9 @@ TARGET_KERNEL_CONFIG_EXT := \
     $(DEVICE_PATH)/configs/kconfigs/pl2_fixups.config
 
 # Cmdline & Boot parameters
-# Nokia boot device block path on sdm630: soc/c0c4000.sdhci
+# Nokia boot device block path on sdm630: soc/c0c4000.sdhci (downstream) and soc/c0c4000.mmc (mainline)
 BOARD_KERNEL_CMDLINE += \
-    androidboot.boot_devices=soc/c0c4000.sdhci \
+    androidboot.boot_devices=soc/c0c4000.sdhci,soc/c0c4000.mmc \
     androidboot.hardware=nokia-pl2 \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
