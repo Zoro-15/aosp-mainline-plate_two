@@ -58,7 +58,7 @@ TARGET_KERNEL_DTB := sdm630-nokia-pl2.dtb
 TARGET_KERNEL_CONFIG_EXT := \
     kernel/mainline/configs/fragments/android-base-pre/common.config \
     kernel/mainline/configs/fragments/android-base-pre/arm64.config \
-    kernel/configs/b/android-6.6/android-base.config \
+    kernel/configs/b/android-6.12/android-base.config \
     kernel/mainline/configs/fragments/android-base-conditional/CONFIG_ARM64-y.config \
     kernel/mainline/configs/fragments/common.config \
     kernel/mainline/configs/fragments/y/fbcon.config \
