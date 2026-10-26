@@ -5,3 +5,8 @@
 #
 
 # Recovery init for Nokia 6.1 (PL2) Mainline
+
+on fs
+    wait /dev/block/platform/soc@0/c0c4000.mmc
+    symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/bootdevice
+
