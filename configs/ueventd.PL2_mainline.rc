@@ -1,3 +1,21 @@
 # Firmware directories for Nokia 6.1 Mainline
 firmware_directories /vendor/firmware/ /firmware/image/
 modalias_handling enabled
+
+# DRM / KMS Graphics
+/dev/dri/*                0666   system     graphics
+/dev/graphics/*           0660   root       graphics
+
+# DMA-BUF Heaps (Android 17 Gralloc / minigbm)
+/dev/dma_heap/*           0664   system     system
+/dev/dma_heap/system      0664   system     system
+/dev/dma_heap/system-uncached 0664 system system
+
+# BinderFS / Binder IPC
+/dev/binderfs/*           0666   root       root
+/dev/binderfs/binder      0666   root       root
+/dev/binderfs/hwbinder    0666   root       root
+/dev/binderfs/vndbinder   0666   root       root
+/dev/binder               0666   root       root
+/dev/hwbinder             0666   root       root
+/dev/vndbinder            0666   root       root

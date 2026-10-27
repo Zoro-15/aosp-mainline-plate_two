@@ -7,6 +7,11 @@
 # Import common mainline init services
 import /vendor/etc/init/hw/init.mainline.rc
 
+on early-init
+    # Set up bootdevice symlink for mainline eMMC controller (soc@0/c0c4000.mmc)
+    wait /dev/block/platform/soc@0/c0c4000.mmc 1
+    symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/bootdevice
+
 on fs
     # Mount partitions without latemount
     mount_all /vendor/etc/fstab.nokia-pl2 --early
