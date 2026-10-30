@@ -44,10 +44,15 @@ PRODUCT_SOONG_NAMESPACES += \
 # Init scripts & fstab
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.nokia-pl2 \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.nokia-pl2 \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RAMDISK)/fstab.nokia-pl2 \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom \
     $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.nokia-pl2.rc \
+    $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.qcom.rc \
     $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/init.recovery.nokia-pl2.rc \
+    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/init.recovery.qcom.rc \
     $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
 # Shipping API & Relaxed VINTF for initial bringup
