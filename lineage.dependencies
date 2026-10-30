@@ -15,5 +15,10 @@
     "repository": "Zoro-15/android_kernel_nokia_sdm630-mainline",
     "target_path": "kernel/nokia/sdm630-mainline",
     "branch": "qcom-sdm660-7.2.y"
+  },
+  {
+    "repository": "Zoro-15/vendor-nokia-pl2mainline",
+    "target_path": "vendor/nokia/PL2_mainline",
+    "branch": "lineage-24.0"
   }
 ]

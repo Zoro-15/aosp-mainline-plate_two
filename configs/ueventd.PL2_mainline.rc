@@ -19,3 +19,7 @@ modalias_handling enabled
 /dev/binder               0666   root       root
 /dev/hwbinder             0666   root       root
 /dev/vndbinder            0666   root       root
+
+# Input Subsystem (Goodix GT1152 Digitizer)
+/dev/input/event*         0660   system     input
+

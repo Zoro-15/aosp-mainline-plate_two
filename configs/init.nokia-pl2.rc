@@ -11,6 +11,7 @@ on early-init
     # Set up bootdevice symlink for mainline eMMC controller (soc@0/c0c4000.mmc)
     wait /dev/block/platform/soc@0/c0c4000.mmc 1
     symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/bootdevice
+    symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/platform/soc/c0c4000.sdhci
 
 on fs
     # Mount partitions without latemount
@@ -27,3 +28,11 @@ on late-fs
 on init
     # Configure USB gadget controller (DWC3 controller on SDM630)
     setprop sys.usb.controller a800000.dwc3
+
+on boot
+    # Permissions for DRM render nodes & Goodix touch
+    chmod 0666 /dev/dri/card0
+    chmod 0666 /dev/dri/renderD128
+    chmod 0660 /dev/input/event0
+    chown system input /dev/input/event0
+

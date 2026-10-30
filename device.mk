@@ -6,11 +6,17 @@
 
 DEVICE_PATH := device/nokia/PL2_mainline
 
-# Initial bringup switch
+# Initial bringup switch (Retained for Stage 4/5/6 bringup: keeps SELinux permissive & console root shell)
 TARGET_INITIAL_BRINGUP ?= true
+
+# Hardware-accelerated 3D graphics (Freedreno Gallium / Adreno 508)
+TARGET_GRAPHICS := mesa
 
 # Inherit common mainline configurations
 $(call inherit-product, device/mainline/common/mainline_common.mk)
+
+# Inherit proprietary vendor configurations
+$(call inherit-product-if-exists, vendor/nokia/PL2_mainline/pl2_mainline-vendor.mk)
 
 # Page size configuration
 PRODUCT_PAGE_SIZE_AGNOSTIC := false

@@ -97,3 +97,7 @@ BOARD_USES_METADATA_PARTITION := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
+
+# Inherit proprietary vendor board configs
+-include vendor/nokia/PL2_mainline/BoardConfigVendor.mk
+
