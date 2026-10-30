@@ -69,6 +69,7 @@ TARGET_KERNEL_CONFIG_EXT := \
 BOARD_KERNEL_CMDLINE += \
     androidboot.boot_devices=soc@0/c0c4000.mmc,soc/c0c4000.sdhci,c0c4000.mmc \
     androidboot.hardware=nokia-pl2 \
+    androidboot.force_normal_boot=1 \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
     androidboot.usbcontroller=a800000.dwc3 \
