@@ -72,12 +72,13 @@ BOARD_KERNEL_CMDLINE += \
     androidboot.force_normal_boot=1 \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
-    androidboot.usbcontroller=a800000.dwc3 \
+    androidboot.usbcontroller=a800000.usb \
     earlycon \
     console=tty0 \
     console=ttyMSM0,115200n8 \
     clk_ignore_unused \
     pd_ignore_unused \
+    cpuidle.off=1 \
     firmware_class.path=/vendor/firmware/
 
 # Partitions (A/B layout, sizes from device GPT)

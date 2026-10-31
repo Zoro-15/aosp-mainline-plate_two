@@ -27,7 +27,7 @@ on late-fs
 
 on init
     # Configure USB gadget controller (DWC3 controller on SDM630)
-    setprop sys.usb.controller a800000.dwc3
+    setprop sys.usb.controller a800000.usb
 
 on boot
     # Permissions for DRM render nodes & Goodix touch
