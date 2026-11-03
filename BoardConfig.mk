@@ -19,7 +19,9 @@ TARGET_INITIAL_BRINGUP ?= true
 $(shell mkdir -p out/soong/.temp)
 
 # Ensure target root and recovery staging directories exist for recovery-as-boot packaging
-$(shell mkdir -p $(TARGET_ROOT_OUT)/system/etc $(TARGET_ROOT_OUT)/linkerconfig out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig)
+$(shell mkdir -p $(TARGET_ROOT_OUT)/system/etc $(TARGET_ROOT_OUT)/linkerconfig $(TARGET_ROOT_OUT)/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/recovery/root/system/bin)
+$(shell [ -f out/target/product/PL2_mainline/system/bin/init ] && cp -f out/target/product/PL2_mainline/system/bin/init out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
+$(shell [ -f out/target/product/PL2_mainline/system/bin/init ] && cp -f out/target/product/PL2_mainline/system/bin/init out/target/product/PL2_mainline/root/system/bin/init 2>/dev/null)
 
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies
@@ -108,6 +110,8 @@ TARGET_KERNEL_CONFIG_EXT := \
 # Cmdline & Boot parameters
 # Nokia boot device block path on sdm630: soc/c0c4000.sdhci (downstream) and soc/c0c4000.mmc (mainline)
 BOARD_KERNEL_CMDLINE += \
+    root=PARTLABEL=system_b \
+    rootwait \
     androidboot.boot_devices=any,soc@0/c0c4000.mmc,soc/c0c4000.sdhci,c0c4000.mmc \
     androidboot.hardware=nokia-pl2 \
     androidboot.force_normal_boot=1 \
@@ -150,6 +154,7 @@ BOARD_ROOT_EXTRA_SYMLINKS += \
     /vendor/firmware_mnt:/firmware
 
 # Recovery
+TARGET_RECOVERY_DEVICE_MODULES += init
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
