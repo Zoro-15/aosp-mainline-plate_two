@@ -83,3 +83,6 @@ PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
 # Enforce VINTF manifest specification via DEVICE_MANIFEST_FILE
 PRODUCT_COPY_FILES := $(filter-out %/manifest.xml:$(TARGET_COPY_OUT_VENDOR)/etc/vintf/manifest.xml %/manifest.xml:vendor/etc/vintf/manifest.xml,$(PRODUCT_COPY_FILES))
+
+# Filter duplicate firmware files provided by external/linux-firmware-mainline
+PRODUCT_COPY_FILES := $(filter-out %/a530_pm4.fw:% %/a530_pfp.fw:%,$(PRODUCT_COPY_FILES))
