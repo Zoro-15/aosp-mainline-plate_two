@@ -44,7 +44,12 @@ PRODUCT_PACKAGES += \
     vendor_dsp_mountpoint \
     vendor_firmware_mnt_mountpoint
 
-# Soong Namespaces
+# Soong Namespaces & Configuration
+$(call soong_config_set,minigbm_upstream,platform,msm)
+$(call soong_config_set,minigbm,platform,msm)
+SOONG_CONFIG_minigbm_upstream_platform := msm
+SOONG_CONFIG_minigbm_platform := msm
+
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
     device/mainline/common \

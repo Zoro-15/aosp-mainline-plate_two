@@ -62,6 +62,12 @@ TARGET_OTA_ASSERT_DEVICE := PL2,PL2_sprout,Plate2,PL2_mainline
 TARGET_BOARD_PLATFORM := sdm630
 TARGET_BOOTLOADER_BOARD_NAME := sdm630
 
+# Set minigbm platform for Qualcomm MSM (docs/qcom/GRAPHICS.md & docs/qcom/NEW_DEVICE.md)
+$(call soong_config_set,minigbm_upstream,platform,msm)
+$(call soong_config_set,minigbm,platform,msm)
+SOONG_CONFIG_minigbm_upstream_platform := msm
+SOONG_CONFIG_minigbm_platform := msm
+
 # VINTF Device Manifest
 DEVICE_MANIFEST_FILE := $(sort $(DEVICE_MANIFEST_FILE) $(wildcard vendor/nokia/PL2_mainline/proprietary/etc/vintf/manifest.xml $(DEVICE_PATH)/manifest.xml))
 
