@@ -60,7 +60,7 @@ TARGET_BOARD_PLATFORM := sdm630
 TARGET_BOOTLOADER_BOARD_NAME := sdm630
 
 # VINTF Device Manifest
-DEVICE_MANIFEST_FILE += $(wildcard $(DEVICE_PATH)/manifest.xml)
+DEVICE_MANIFEST_FILE := $(sort $(DEVICE_MANIFEST_FILE) $(wildcard vendor/nokia/PL2_mainline/proprietary/etc/vintf/manifest.xml $(DEVICE_PATH)/manifest.xml))
 
 # Display
 TARGET_SCREEN_DENSITY := 420
