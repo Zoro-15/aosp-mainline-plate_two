@@ -67,23 +67,26 @@ PRODUCT_SOONG_NAMESPACES += \
 
 # Init scripts & fstab (Header v0 recovery-as-boot layout)
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/init.arm64:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/init \
-    $(DEVICE_PATH)/configs/init.arm64:$(TARGET_COPY_OUT_RAMDISK)/system/bin/init \
+    $(DEVICE_PATH)/configs/init.arm64:recovery/root/system/bin/init \
+    $(DEVICE_PATH)/configs/init.arm64:recovery/root/init \
+    $(DEVICE_PATH)/configs/init.arm64:root/system/bin/init \
+    $(DEVICE_PATH)/configs/init.arm64:root/init \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.nokia-pl2 \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.qcom \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/system/etc/recovery.fstab \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.default \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RAMDISK)/fstab.nokia-pl2 \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RAMDISK)/first_stage_ramdisk/fstab.nokia-pl2 \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RAMDISK)/first_stage_ramdisk/fstab.qcom \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.nokia-pl2 \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/fstab.nokia-pl2 \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/fstab.qcom \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/first_stage_ramdisk/fstab.nokia-pl2 \
+    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/first_stage_ramdisk/fstab.qcom \
     $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.nokia-pl2.rc \
     $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.qcom.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_RAMDISK)/init.recovery.nokia-pl2.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_RAMDISK)/init.recovery.qcom.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.nokia-pl2.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.qcom.rc \
+    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:recovery/root/init.recovery.nokia-pl2.rc \
+    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:recovery/root/init.recovery.qcom.rc \
+    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:root/init.recovery.nokia-pl2.rc \
+    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:root/init.recovery.qcom.rc \
     $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.nokia-pl2.rc \
     $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.qcom.rc
 

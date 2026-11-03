@@ -18,10 +18,13 @@ TARGET_INITIAL_BRINGUP ?= true
 # Ensure Soong temporary working directory exists
 $(shell mkdir -p out/soong/.temp)
 
-# Ensure target root and recovery staging directories exist for recovery-as-boot packaging
-$(shell mkdir -p $(TARGET_ROOT_OUT)/system/etc $(TARGET_ROOT_OUT)/linkerconfig $(TARGET_ROOT_OUT)/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/recovery/root/system/bin)
-$(shell [ -f out/target/product/PL2_mainline/system/bin/init ] && cp -f out/target/product/PL2_mainline/system/bin/init out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
-$(shell [ -f out/target/product/PL2_mainline/system/bin/init ] && cp -f out/target/product/PL2_mainline/system/bin/init out/target/product/PL2_mainline/root/system/bin/init 2>/dev/null)
+# Ensure target root and recovery staging directories exist for recovery-as-boot packaging,
+# and forcefully stage the authentic static first-stage init binary directly into both ramdisk targets
+$(shell mkdir -p out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/recovery/root/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/recovery/root/system/etc)
+$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
+$(shell chmod 755 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
+$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/root/system/bin/init 2>/dev/null)
+$(shell chmod 755 out/target/product/PL2_mainline/root/system/bin/init 2>/dev/null)
 
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies
