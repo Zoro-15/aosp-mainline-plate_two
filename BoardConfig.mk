@@ -12,6 +12,19 @@ USES_DEVICE_NOKIA_PL2_MAINLINE := true
 # 2. Variables read by common board config
 TARGET_INITIAL_BRINGUP ?= true
 
+# ------------------------------------------------------------------------------
+# Soong & Platform Blueprint Fixups for Android 17 / Baklava
+# ------------------------------------------------------------------------------
+# Ensure Soong temporary working directory exists
+$(shell mkdir -p out/soong/.temp)
+
+# Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
+# external/libjxl declares 'vendor_available: true' but its static dependencies
+# 'libskia_skcms' (external/skia) and 'libhwy' (external/libhwy) lack vendor variants.
+# Since /vendor does not use JPEG XL, remove vendor_available to satisfy the Soong graph.
+$(shell [ -d external/libjxl ] && find external/libjxl -name "Android.bp" -exec sed -i -E '/vendor_available:[[:space:]]*true/d' {} + 2>/dev/null)
+$(shell [ -d external/dng_sdk ] && find external/dng_sdk -name "Android.bp" -exec sed -i -E '/vendor_available:[[:space:]]*true/d' {} + 2>/dev/null)
+
 # 3. Inherit Common Board configs from mainline framework
 -include device/mainline/common/BoardConfigMainlineCommon.mk
 

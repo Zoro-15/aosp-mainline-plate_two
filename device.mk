@@ -9,6 +9,11 @@ DEVICE_PATH := device/nokia/PL2_mainline
 # Initial bringup switch (Retained for Stage 1-6 bringup: keeps SELinux permissive & console root shell)
 TARGET_INITIAL_BRINGUP ?= true
 
+# Enforce generic fallbacks for media & camera codecs during initial bringup
+# (prevents pulling unbuilt vendor codecs into /vendor)
+TARGET_CAMERA_PROVIDER_HAL :=
+TARGET_MEDIA_C2_HAL :=
+
 # Inherit common mainline configurations
 $(call inherit-product, device/mainline/common/mainline_common.mk)
 
