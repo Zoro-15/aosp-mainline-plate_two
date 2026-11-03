@@ -75,7 +75,8 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_RAMDISK)/init.recovery.qcom.rc \
     $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.nokia-pl2.rc \
     $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.qcom.rc \
-    $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
+    $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.nokia-pl2.rc \
+    $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.qcom.rc
 
 # Shipping API & Relaxed VINTF for initial bringup
 PRODUCT_SHIPPING_API_LEVEL := 27
@@ -86,3 +87,6 @@ PRODUCT_COPY_FILES := $(filter-out %/manifest.xml:$(TARGET_COPY_OUT_VENDOR)/etc/
 
 # Filter duplicate firmware files provided by external/linux-firmware-mainline
 PRODUCT_COPY_FILES := $(filter-out %/a530_pm4.fw:% %/a530_pfp.fw:%,$(PRODUCT_COPY_FILES))
+
+# Filter duplicate ueventd.rc (common ueventd.rc is provided by ueventd.mainline.rc Soong module)
+PRODUCT_COPY_FILES := $(filter-out %:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc %:vendor/etc/ueventd.rc,$(PRODUCT_COPY_FILES))
