@@ -1,0 +1,16 @@
+#
+# Copyright (C) 2026 The Android Open Source Project
+# Copyright (C) 2026 LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Recovery init for Nokia 6.1 (PL2) Mainline
+
+on fs
+    wait /dev/block/platform/soc@0/c0c4000.mmc 1
+    symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/bootdevice
+    symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/platform/soc/c0c4000.sdhci
+
+on init
+    setprop sys.usb.configfs 1
+    setprop sys.usb.controller a800000.usb

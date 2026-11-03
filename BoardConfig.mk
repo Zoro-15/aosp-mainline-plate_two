@@ -6,10 +6,16 @@
 
 DEVICE_PATH := device/nokia/PL2_mainline
 
-# Identify device
+# 1. Identify device
 USES_DEVICE_NOKIA_PL2_MAINLINE := true
 
-# Architecture
+# 2. Variables read by common board config
+TARGET_INITIAL_BRINGUP ?= true
+
+# 3. Inherit Common Board configs from mainline framework
+-include device/mainline/common/BoardConfigMainlineCommon.mk
+
+# 4. Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
@@ -20,9 +26,8 @@ TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
-
-# Bringup mode (permissive SELinux, serial/fb console, basic graphics)
-TARGET_INITIAL_BRINGUP := true
+TARGET_SUPPORTS_64_BIT_APPS := true
+TARGET_MAX_PAGE_SIZE_SUPPORTED := 65536
 
 # Assertions
 TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
@@ -35,40 +40,57 @@ TARGET_BOOTLOADER_BOARD_NAME := sdm630
 # Display
 TARGET_SCREEN_DENSITY := 420
 
-# Bootloader & Kernel starting mechanism
+# Bootloader & Kernel starting mechanism (Header v0 for Little Kernel aboot)
 TARGET_NO_BOOTLOADER := true
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_BOOT_HEADER_VERSION := 2
+BOARD_BOOT_HEADER_VERSION := 0
+BOARD_KERNEL_OFFSET := 0x00008000
+BOARD_RAMDISK_OFFSET := 0x01000000
+BOARD_TAGS_OFFSET := 0x00000100
+BOARD_SECOND_OFFSET := 0x00f00000
+BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_USES_RECOVERY_AS_BOOT := true
+TARGET_NO_RECOVERY := true
 
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/nokia/sdm630-mainline
 TARGET_KERNEL_ARCH := arm64
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
-TARGET_KERNEL_CONFIG := defconfig
-TARGET_KERNEL_DTB := sdm630-nokia-pl2.dtb
+TARGET_KERNEL_CONFIG := sdm660_defconfig
+TARGET_KERNEL_DTB := dtbs
+TARGET_DTB_LIST_WILDCARD := *sdm630-nokia-pl2*.dtb
 
 # Android Mainline Configuration Fragments
 TARGET_KERNEL_CONFIG_EXT := \
     kernel/mainline/configs/fragments/android-base-pre/common.config \
     kernel/mainline/configs/fragments/android-base-pre/arm64.config \
-    kernel/configs/b/android-6.6/android-base.config \
+    kernel/configs/b/android-6.12/android-base.config \
     kernel/mainline/configs/fragments/android-base-conditional/CONFIG_ARM64-y.config \
     kernel/mainline/configs/fragments/common.config \
     kernel/mainline/configs/fragments/y/fbcon.config \
     $(DEVICE_PATH)/configs/kconfigs/pl2_fixups.config
 
 # Cmdline & Boot parameters
-# Nokia boot device block path on sdm630: soc/c0c4000.sdhci
+# Nokia boot device block path on sdm630: soc/c0c4000.sdhci (downstream) and soc/c0c4000.mmc (mainline)
 BOARD_KERNEL_CMDLINE += \
-    androidboot.boot_devices=soc/c0c4000.sdhci \
+    androidboot.boot_devices=any,soc@0/c0c4000.mmc,soc/c0c4000.sdhci,c0c4000.mmc \
     androidboot.hardware=nokia-pl2 \
+    androidboot.force_normal_boot=1 \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
-    earlycon=msm_geni_serial,0x0c280000 \
+    androidboot.usbcontroller=a800000.usb \
+    earlycon \
     console=tty0 \
-    console=ttyMSM0,115200n8
+    console=ttyMSM0,115200n8 \
+    clk_ignore_unused \
+    pd_ignore_unused \
+    cpuidle.off=1 \
+    firmware_class.path=/vendor/firmware/
+
+# Mainline common boot parameters for header v0 (bootconfig disabled)
+BOARD_KERNEL_CMDLINE += $(MAINLINE_COMMON_ANDROIDBOOT_PARAMS)
+BOARD_KERNEL_CMDLINE += $(MAINLINE_COMMON_KERNEL_PARAMS)
 
 # Partitions (A/B layout, sizes from device GPT)
 AB_OTA_UPDATER := true
@@ -83,11 +105,19 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
 BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_COPY_OUT_VENDOR := vendor
 BOARD_USES_METADATA_PARTITION := true
+
+# Root symlinks for Qualcomm firmware and persist mountpoints
+BOARD_ROOT_EXTRA_SYMLINKS += \
+    /mnt/vendor/persist:/persist \
+    /vendor/bt_firmware:/bt_firmware \
+    /vendor/dsp:/dsp \
+    /vendor/firmware_mnt:/firmware
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
-# Inherit Common Board configs from mainline framework
--include device/mainline/common/BoardConfigMainlineCommon.mk
--include device/mainline/qcom-common/BoardConfigMainlineQcomCommon.mk
+# Inherit proprietary vendor board configs
+-include vendor/nokia/PL2_mainline/BoardConfigVendor.mk
