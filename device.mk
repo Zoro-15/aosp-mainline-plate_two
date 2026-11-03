@@ -69,7 +69,6 @@ PRODUCT_SOONG_NAMESPACES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.qcom \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/system/etc/recovery.fstab \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.default \
