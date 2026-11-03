@@ -152,7 +152,7 @@ BOARD_ROOT_EXTRA_SYMLINKS += \
     /vendor/firmware_mnt:/firmware
 
 # Recovery
-TARGET_RECOVERY_DEVICE_MODULES += init
+TARGET_RECOVERY_DEVICE_MODULES += init_first_stage
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 

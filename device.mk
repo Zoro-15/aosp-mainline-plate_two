@@ -39,6 +39,7 @@ DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlays
 
 # Packages & Memfd (pristine/community kernel support)
 PRODUCT_PACKAGES += \
+    init_first_stage \
     fastbootd \
     use_memfd.rc \
     vendor_bt_firmware_mountpoint \
@@ -66,6 +67,8 @@ PRODUCT_SOONG_NAMESPACES += \
 
 # Init scripts & fstab (Header v0 recovery-as-boot layout)
 PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init.arm64:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/init \
+    $(DEVICE_PATH)/configs/init.arm64:$(TARGET_COPY_OUT_RAMDISK)/system/bin/init \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.default \
