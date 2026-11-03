@@ -39,6 +39,8 @@ DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlays
 
 # Packages & Memfd (pristine/community kernel support)
 PRODUCT_PACKAGES += \
+    init_recovery_static \
+    init_root_static \
     init_first_stage \
     fastbootd \
     use_memfd.rc \
