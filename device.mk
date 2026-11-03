@@ -50,10 +50,12 @@ PRODUCT_SOONG_NAMESPACES += \
     device/mainline/common \
     hardware/mainline/common \
     kernel/mainline/configs \
+    vendor/mainline \
     external/alsa-lib \
     external/alsa-ucm-conf \
+    external/linux-firmware-mainline \
     external/mesa3d \
-    external/minigbm \
+    external/minigbm-upstream \
     external/libdrm
 
 # Init scripts & fstab (Header v0 recovery-as-boot layout)

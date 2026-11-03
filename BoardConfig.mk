@@ -29,6 +29,11 @@ $(shell [ -d external/dng_sdk ] && find external/dng_sdk -name "Android.bp" -exe
 $(shell [ ! -d external/alsa-lib ] && git clone --depth=1 -b lineage-24.0 https://github.com/LineageOS/android_external_alsa-lib.git external/alsa-lib 2>/dev/null)
 $(shell [ ! -d external/alsa-ucm-conf ] && git clone --depth=1 -b lineage-24.0 https://github.com/LineageOS/android_external_alsa-ucm-conf.git external/alsa-ucm-conf 2>/dev/null)
 
+# Ensure mainline framework dependencies exist
+$(shell [ ! -d vendor/mainline ] && git clone --depth=1 -b lineage-24.0 https://github.com/me-cafebabe-aosp-mainline/android_vendor_mainline.git vendor/mainline 2>/dev/null)
+$(shell [ ! -d external/linux-firmware-mainline ] && git clone --depth=1 -b lineage-24.0 https://github.com/LineageOS/android_external_linux-firmware-mainline.git external/linux-firmware-mainline 2>/dev/null)
+$(shell [ ! -d external/minigbm-upstream ] && git clone --depth=1 -b lineage-24.0 https://github.com/LineageOS/android_external_minigbm-upstream.git external/minigbm-upstream 2>/dev/null)
+
 # 3. Inherit Common Board configs from mainline framework
 -include device/mainline/common/BoardConfigMainlineCommon.mk
 
