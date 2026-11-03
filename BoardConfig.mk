@@ -18,8 +18,13 @@ TARGET_INITIAL_BRINGUP ?= true
 # Ensure Soong temporary working directory exists
 $(shell mkdir -p out/soong/.temp)
 
-# Ensure target root and recovery staging directories exist for recovery-as-boot packaging
-$(shell mkdir -p out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/recovery/root/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/recovery/root/system/etc)
+# Ensure target root and recovery staging directories exist for recovery-as-boot packaging,
+# and forcefully stage the authentic static first-stage init binary directly into recovery ramdisk targets
+$(shell mkdir -p out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/recovery/root/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/recovery/root/system/etc out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/system/bin)
+$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
+$(shell chmod 755 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
+$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/root/system/bin/init 2>/dev/null)
+$(shell chmod 755 out/target/product/PL2_mainline/root/system/bin/init 2>/dev/null)
 
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies
@@ -150,7 +155,6 @@ BOARD_ROOT_EXTRA_SYMLINKS += \
     /vendor/firmware_mnt:/firmware
 
 # Recovery
-TARGET_RECOVERY_DEVICE_MODULES += init_first_stage
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
