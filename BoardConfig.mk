@@ -24,8 +24,6 @@ $(shell mkdir -p out/soong/.temp)
 # Since /vendor does not use JPEG XL, remove vendor_available to satisfy the Soong graph.
 $(shell [ -d external/libjxl ] && find external/libjxl -name "Android.bp" -exec sed -i -E '/vendor_available:[[:space:]]*true/d' {} + 2>/dev/null)
 $(shell [ -d external/dng_sdk ] && find external/dng_sdk -name "Android.bp" -exec sed -i -E '/vendor_available:[[:space:]]*true/d' {} + 2>/dev/null)
-$(shell [ -f vendor/nokia/PL2_mainline/pl2_mainline-vendor.mk ] && sed -i '/vintf\/manifest\.xml/d' vendor/nokia/PL2_mainline/pl2_mainline-vendor.mk 2>/dev/null)
-$(shell [ -f vendor/nokia/PL2_mainline/pl2_mainline-vendor.mk ] && sed -i -E '/a530_p(m4|fp)\.fw/d' vendor/nokia/PL2_mainline/pl2_mainline-vendor.mk 2>/dev/null)
 
 # Ensure ALSA library dependencies for hardware/mainline/common audio HAL exist
 $(shell [ ! -d external/alsa-lib ] && git clone --depth=1 -b lineage-24.0 https://github.com/LineageOS/android_external_alsa-lib.git external/alsa-lib 2>/dev/null)
