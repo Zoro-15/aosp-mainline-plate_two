@@ -18,6 +18,9 @@ TARGET_INITIAL_BRINGUP ?= true
 # Ensure Soong temporary working directory exists
 $(shell mkdir -p out/soong/.temp)
 
+# Ensure target root and recovery staging directories exist for recovery-as-boot packaging
+$(shell mkdir -p $(TARGET_ROOT_OUT)/system/etc $(TARGET_ROOT_OUT)/linkerconfig out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig)
+
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies
 # 'libskia_skcms' (external/skia) and 'libhwy' (external/libhwy) lack vendor variants.
