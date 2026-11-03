@@ -50,6 +50,8 @@ PRODUCT_SOONG_NAMESPACES += \
     device/mainline/common \
     hardware/mainline/common \
     kernel/mainline/configs \
+    external/alsa-lib \
+    external/alsa-ucm-conf \
     external/mesa3d \
     external/minigbm \
     external/libdrm

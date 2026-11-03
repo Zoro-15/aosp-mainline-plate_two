@@ -25,6 +25,10 @@ $(shell mkdir -p out/soong/.temp)
 $(shell [ -d external/libjxl ] && find external/libjxl -name "Android.bp" -exec sed -i -E '/vendor_available:[[:space:]]*true/d' {} + 2>/dev/null)
 $(shell [ -d external/dng_sdk ] && find external/dng_sdk -name "Android.bp" -exec sed -i -E '/vendor_available:[[:space:]]*true/d' {} + 2>/dev/null)
 
+# Ensure ALSA library dependencies for hardware/mainline/common audio HAL exist
+$(shell [ ! -d external/alsa-lib ] && git clone --depth=1 -b lineage-24.0 https://github.com/LineageOS/android_external_alsa-lib.git external/alsa-lib 2>/dev/null)
+$(shell [ ! -d external/alsa-ucm-conf ] && git clone --depth=1 -b lineage-24.0 https://github.com/LineageOS/android_external_alsa-ucm-conf.git external/alsa-ucm-conf 2>/dev/null)
+
 # 3. Inherit Common Board configs from mainline framework
 -include device/mainline/common/BoardConfigMainlineCommon.mk
 

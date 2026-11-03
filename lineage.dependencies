@@ -15,6 +15,16 @@
     "branch": "lineage-24.0"
   },
   {
+    "repository": "LineageOS/android_external_alsa-lib",
+    "target_path": "external/alsa-lib",
+    "branch": "lineage-24.0"
+  },
+  {
+    "repository": "LineageOS/android_external_alsa-ucm-conf",
+    "target_path": "external/alsa-ucm-conf",
+    "branch": "lineage-24.0"
+  },
+  {
     "repository": "Zoro-15/android_kernel_nokia_sdm630-mainline",
     "target_path": "kernel/nokia/sdm630-mainline",
     "branch": "qcom-sdm660-7.2.y"
