@@ -18,16 +18,6 @@ TARGET_INITIAL_BRINGUP ?= true
 # Ensure Soong temporary working directory exists
 $(shell mkdir -p out/soong/.temp)
 
-# Ensure target root and recovery staging directories exist for recovery-as-boot packaging,
-# completely purge TARGET_ROOT_OUT to prevent stale ramdisk files from contaminating system.img,
-# and forcefully stage the authentic static first-stage init binary into recovery ramdisk targets
-$(shell rm -rf out/target/product/PL2_mainline/root out/target/product/PL2_mainline/obj/PACKAGING/system_intermediates)
-$(shell mkdir -p out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/recovery/root/system/bin out/target/product/PL2_mainline/recovery/root/system/etc out/target/product/PL2_mainline/recovery/root/proc out/target/product/PL2_mainline/recovery/root/sys out/target/product/PL2_mainline/recovery/root/mnt out/target/product/PL2_mainline/recovery/root/debug_ramdisk out/target/product/PL2_mainline/recovery/root/second_stage_resources out/target/product/PL2_mainline/recovery/root/metadata out/target/product/PL2_mainline/recovery/root/dev out/target/product/PL2_mainline/recovery/root/vendor out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/vendor out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/metadata out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/mnt out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/system/bin)
-$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
-$(shell chmod 755 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
-$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/system/bin/init 2>/dev/null)
-$(shell chmod 755 out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/system/bin/init 2>/dev/null)
-
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies
 # 'libskia_skcms' (external/skia) and 'libhwy' (external/libhwy) lack vendor variants.
@@ -133,21 +123,50 @@ BOARD_KERNEL_CMDLINE += \
 BOARD_KERNEL_CMDLINE += $(MAINLINE_COMMON_ANDROIDBOOT_PARAMS)
 BOARD_KERNEL_CMDLINE += $(MAINLINE_COMMON_KERNEL_PARAMS)
 
-# Partitions (A/B layout, sizes from device GPT)
+# Partitions (Retrofit Dynamic Partitions)
+BOARD_SUPER_PARTITION_SYSTEM_DEVICE_SIZE := 3221225472
+BOARD_SUPER_PARTITION_VENDOR_DEVICE_SIZE := 1073741824
+
+BOARD_PRODUCTIMAGE_MINIMAL_PARTITION_RESERVED_SIZE := true
+-include vendor/lineage/config/BoardConfigReservedSize.mk
+
+BOARD_USES_METADATA_PARTITION := true
+BOARD_USES_RECOVERY_AS_BOOT := true
+BOARD_FLASH_BLOCK_SIZE := 262144
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
+
+BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+
+BOARD_SUPER_PARTITION_BLOCK_DEVICES := system vendor
+BOARD_SUPER_PARTITION_GROUPS := nokia_dynamic_partitions
+BOARD_SUPER_PARTITION_METADATA_DEVICE := system
+BOARD_SUPER_PARTITION_SIZE := $(shell expr $(BOARD_SUPER_PARTITION_SYSTEM_DEVICE_SIZE) + $(BOARD_SUPER_PARTITION_VENDOR_DEVICE_SIZE))
+BOARD_NOKIA_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor
+BOARD_NOKIA_DYNAMIC_PARTITIONS_SIZE := $(shell expr $(BOARD_SUPER_PARTITION_SIZE) - 4194304) # 4MiB overhead
+
+TARGET_COPY_OUT_ODM := odm
+TARGET_COPY_OUT_PRODUCT := product
+TARGET_COPY_OUT_SYSTEM_EXT := system_ext
+TARGET_COPY_OUT_VENDOR := vendor
+TARGET_NO_RECOVERY := true
+TARGET_USERIMAGES_USE_EXT4 := true
+
+# A/B OTA Partitions
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
+    odm \
+    product \
     system \
+    system_ext \
     vendor
 
-BOARD_FLASH_BLOCK_SIZE := 262144
-BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
-BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
-BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_COPY_OUT_VENDOR := vendor
-BOARD_USES_METADATA_PARTITION := true
+# Verity
+BOARD_AVB_ENABLE := false
 
 # Root symlinks for Qualcomm firmware and persist mountpoints
 BOARD_ROOT_EXTRA_SYMLINKS += \
