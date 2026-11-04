@@ -18,6 +18,9 @@ TARGET_INITIAL_BRINGUP ?= true
 # Ensure Soong temporary working directory exists
 $(shell mkdir -p out/soong/.temp)
 
+# Ensure target root directory exists for build_image.py (recovery-as-boot)
+$(shell mkdir -p out/target/product/PL2_mainline/root && find out/target/product/PL2_mainline/root -name ".keep" -delete 2>/dev/null)
+
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies
 # 'libskia_skcms' (external/skia) and 'libhwy' (external/libhwy) lack vendor variants.
