@@ -73,12 +73,28 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/rootdir/metadata/.keep:recovery/root/metadata/.keep \
     $(DEVICE_PATH)/configs/rootdir/debug_ramdisk/.keep:recovery/root/debug_ramdisk/.keep \
     $(DEVICE_PATH)/configs/rootdir/second_stage_resources/.keep:recovery/root/second_stage_resources/.keep \
+    $(DEVICE_PATH)/configs/rootdir/vendor/.keep:recovery/root/vendor/.keep \
+    $(DEVICE_PATH)/configs/rootdir/proc/.keep:recovery/root/first_stage_ramdisk/proc/.keep \
+    $(DEVICE_PATH)/configs/rootdir/sys/.keep:recovery/root/first_stage_ramdisk/sys/.keep \
+    $(DEVICE_PATH)/configs/rootdir/mnt/.keep:recovery/root/first_stage_ramdisk/mnt/.keep \
+    $(DEVICE_PATH)/configs/rootdir/metadata/.keep:recovery/root/first_stage_ramdisk/metadata/.keep \
+    $(DEVICE_PATH)/configs/rootdir/vendor/.keep:recovery/root/first_stage_ramdisk/vendor/.keep \
+    $(DEVICE_PATH)/configs/rootdir/debug_ramdisk/.keep:recovery/root/first_stage_ramdisk/debug_ramdisk/.keep \
+    $(DEVICE_PATH)/configs/rootdir/second_stage_resources/.keep:recovery/root/first_stage_ramdisk/second_stage_resources/.keep \
     $(DEVICE_PATH)/configs/rootdir/proc/.keep:root/proc/.keep \
     $(DEVICE_PATH)/configs/rootdir/sys/.keep:root/sys/.keep \
     $(DEVICE_PATH)/configs/rootdir/mnt/.keep:root/mnt/.keep \
     $(DEVICE_PATH)/configs/rootdir/metadata/.keep:root/metadata/.keep \
     $(DEVICE_PATH)/configs/rootdir/debug_ramdisk/.keep:root/debug_ramdisk/.keep \
     $(DEVICE_PATH)/configs/rootdir/second_stage_resources/.keep:root/second_stage_resources/.keep \
+    $(DEVICE_PATH)/configs/rootdir/vendor/.keep:root/vendor/.keep \
+    $(DEVICE_PATH)/configs/rootdir/proc/.keep:root/first_stage_ramdisk/proc/.keep \
+    $(DEVICE_PATH)/configs/rootdir/sys/.keep:root/first_stage_ramdisk/sys/.keep \
+    $(DEVICE_PATH)/configs/rootdir/mnt/.keep:root/first_stage_ramdisk/mnt/.keep \
+    $(DEVICE_PATH)/configs/rootdir/metadata/.keep:root/first_stage_ramdisk/metadata/.keep \
+    $(DEVICE_PATH)/configs/rootdir/vendor/.keep:root/first_stage_ramdisk/vendor/.keep \
+    $(DEVICE_PATH)/configs/rootdir/debug_ramdisk/.keep:root/first_stage_ramdisk/debug_ramdisk/.keep \
+    $(DEVICE_PATH)/configs/rootdir/second_stage_resources/.keep:root/first_stage_ramdisk/second_stage_resources/.keep \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.nokia-pl2 \
