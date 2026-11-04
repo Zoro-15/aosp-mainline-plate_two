@@ -66,6 +66,8 @@ PRODUCT_SOONG_NAMESPACES += \
     external/libdrm
 
 # Init scripts & fstab (Header v0 recovery-as-boot layout)
+# Note: Ramdisk mount points and recovery rc files are strictly isolated to recovery/root/
+# to prevent polluting TARGET_ROOT_OUT and causing e2fsdroid SELinux label failures on system.img
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/rootdir/proc/.keep:recovery/root/proc/.keep \
     $(DEVICE_PATH)/configs/rootdir/sys/.keep:recovery/root/sys/.keep \
@@ -81,35 +83,15 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/rootdir/vendor/.keep:recovery/root/first_stage_ramdisk/vendor/.keep \
     $(DEVICE_PATH)/configs/rootdir/debug_ramdisk/.keep:recovery/root/first_stage_ramdisk/debug_ramdisk/.keep \
     $(DEVICE_PATH)/configs/rootdir/second_stage_resources/.keep:recovery/root/first_stage_ramdisk/second_stage_resources/.keep \
-    $(DEVICE_PATH)/configs/rootdir/proc/.keep:root/proc/.keep \
-    $(DEVICE_PATH)/configs/rootdir/sys/.keep:root/sys/.keep \
-    $(DEVICE_PATH)/configs/rootdir/mnt/.keep:root/mnt/.keep \
-    $(DEVICE_PATH)/configs/rootdir/metadata/.keep:root/metadata/.keep \
-    $(DEVICE_PATH)/configs/rootdir/debug_ramdisk/.keep:root/debug_ramdisk/.keep \
-    $(DEVICE_PATH)/configs/rootdir/second_stage_resources/.keep:root/second_stage_resources/.keep \
-    $(DEVICE_PATH)/configs/rootdir/vendor/.keep:root/vendor/.keep \
-    $(DEVICE_PATH)/configs/rootdir/proc/.keep:root/first_stage_ramdisk/proc/.keep \
-    $(DEVICE_PATH)/configs/rootdir/sys/.keep:root/first_stage_ramdisk/sys/.keep \
-    $(DEVICE_PATH)/configs/rootdir/mnt/.keep:root/first_stage_ramdisk/mnt/.keep \
-    $(DEVICE_PATH)/configs/rootdir/metadata/.keep:root/first_stage_ramdisk/metadata/.keep \
-    $(DEVICE_PATH)/configs/rootdir/vendor/.keep:root/first_stage_ramdisk/vendor/.keep \
-    $(DEVICE_PATH)/configs/rootdir/debug_ramdisk/.keep:root/first_stage_ramdisk/debug_ramdisk/.keep \
-    $(DEVICE_PATH)/configs/rootdir/second_stage_resources/.keep:root/first_stage_ramdisk/second_stage_resources/.keep \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.nokia-pl2 \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
     $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.default \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/fstab.nokia-pl2 \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/fstab.qcom \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/first_stage_ramdisk/fstab.nokia-pl2 \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:root/first_stage_ramdisk/fstab.qcom \
     $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.nokia-pl2.rc \
     $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.qcom.rc \
     $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:recovery/root/init.recovery.nokia-pl2.rc \
     $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:recovery/root/init.recovery.qcom.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:root/init.recovery.nokia-pl2.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:root/init.recovery.qcom.rc \
     $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.nokia-pl2.rc \
     $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.qcom.rc
 
