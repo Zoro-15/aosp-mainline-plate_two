@@ -18,8 +18,6 @@ TARGET_INITIAL_BRINGUP ?= true
 # Ensure Soong temporary working directory exists
 $(shell mkdir -p out/soong/.temp)
 
-# Ensure target root directory exists for build_image.py (recovery-as-boot)
-$(shell mkdir -p out/target/product/PL2_mainline/root && find out/target/product/PL2_mainline/root -name ".keep" -delete 2>/dev/null)
 
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies
@@ -171,7 +169,8 @@ AB_OTA_PARTITIONS += \
 # Verity
 BOARD_AVB_ENABLE := false
 
-# Root symlinks for Qualcomm firmware and persist mountpoints
+# Root folders & symlinks (Retrofit Dynamic Partitions & LinkerConfig staging)
+BOARD_ROOT_EXTRA_FOLDERS += linkerconfig
 BOARD_ROOT_EXTRA_SYMLINKS += \
     /mnt/vendor/persist:/persist \
     /vendor/bt_firmware:/bt_firmware \
@@ -179,7 +178,6 @@ BOARD_ROOT_EXTRA_SYMLINKS += \
     /vendor/firmware_mnt:/firmware
 
 # Recovery
-TARGET_RECOVERY_DEVICE_MODULES += linker
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 

@@ -84,19 +84,17 @@ AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_product=ext4 \
     POSTINSTALL_OPTIONAL_product=false
 
-# Init scripts & fstab
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.nokia-pl2 \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:recovery/root/first_stage_ramdisk/fstab.qcom \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.nokia-pl2 \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
-    $(DEVICE_PATH)/configs/fstab.nokia-pl2:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.default \
-    $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.nokia-pl2.rc \
-    $(DEVICE_PATH)/configs/init.nokia-pl2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.qcom.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:recovery/root/init.recovery.nokia-pl2.rc \
-    $(DEVICE_PATH)/configs/init.recovery.nokia-pl2.rc:recovery/root/init.recovery.qcom.rc \
-    $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.nokia-pl2.rc \
-    $(DEVICE_PATH)/configs/ueventd.PL2_mainline.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.qcom.rc
+# Init & rootdir packages
+PRODUCT_PACKAGES += \
+    fstab.nokia-pl2 \
+    fstab.nokia-pl2.ramdisk \
+    fstab.qcom \
+    fstab.qcom.ramdisk \
+    fstab.default \
+    init.nokia-pl2.rc \
+    init.recovery.nokia-pl2.rc \
+    init.recovery.qcom.rc \
+    ueventd.nokia-pl2.rc
 
 # Shipping API & Relaxed VINTF for initial bringup
 PRODUCT_SHIPPING_API_LEVEL := 27
