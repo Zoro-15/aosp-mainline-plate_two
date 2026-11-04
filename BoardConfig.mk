@@ -19,10 +19,14 @@ TARGET_INITIAL_BRINGUP ?= true
 $(shell mkdir -p out/soong/.temp)
 
 # Ensure target root and recovery staging directories exist for recovery-as-boot packaging,
-# and completely purge TARGET_ROOT_OUT and packaging intermediates to prevent stale ramdisk
-# files or .keep placeholders from contaminating system.img and breaking e2fsdroid
+# completely purge TARGET_ROOT_OUT to prevent stale ramdisk files from contaminating system.img,
+# and forcefully stage the authentic static first-stage init binary into recovery ramdisk targets
 $(shell rm -rf out/target/product/PL2_mainline/root out/target/product/PL2_mainline/obj/PACKAGING/system_intermediates)
-$(shell mkdir -p out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/recovery/root/system/bin out/target/product/PL2_mainline/recovery/root/system/etc out/target/product/PL2_mainline/recovery/root/proc out/target/product/PL2_mainline/recovery/root/sys out/target/product/PL2_mainline/recovery/root/mnt out/target/product/PL2_mainline/recovery/root/debug_ramdisk out/target/product/PL2_mainline/recovery/root/second_stage_resources out/target/product/PL2_mainline/recovery/root/metadata out/target/product/PL2_mainline/recovery/root/dev out/target/product/PL2_mainline/recovery/root/vendor out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/vendor out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/metadata out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/mnt)
+$(shell mkdir -p out/target/product/PL2_mainline/root/system/bin out/target/product/PL2_mainline/root/system/etc out/target/product/PL2_mainline/root/linkerconfig out/target/product/PL2_mainline/recovery/root/system/bin out/target/product/PL2_mainline/recovery/root/system/etc out/target/product/PL2_mainline/recovery/root/proc out/target/product/PL2_mainline/recovery/root/sys out/target/product/PL2_mainline/recovery/root/mnt out/target/product/PL2_mainline/recovery/root/debug_ramdisk out/target/product/PL2_mainline/recovery/root/second_stage_resources out/target/product/PL2_mainline/recovery/root/metadata out/target/product/PL2_mainline/recovery/root/dev out/target/product/PL2_mainline/recovery/root/vendor out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/vendor out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/metadata out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/mnt out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/system/bin)
+$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
+$(shell chmod 755 out/target/product/PL2_mainline/recovery/root/system/bin/init 2>/dev/null)
+$(shell cp -f $(DEVICE_PATH)/configs/init.arm64 out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/system/bin/init 2>/dev/null)
+$(shell chmod 755 out/target/product/PL2_mainline/recovery/root/first_stage_ramdisk/system/bin/init 2>/dev/null)
 
 # Fix Soong Blueprint analysis break in external/libjxl and external/dng_sdk:
 # external/libjxl declares 'vendor_available: true' but its static dependencies

@@ -69,6 +69,8 @@ PRODUCT_SOONG_NAMESPACES += \
 # Note: Ramdisk mount points and recovery rc files are strictly isolated to recovery/root/
 # to prevent polluting TARGET_ROOT_OUT and causing e2fsdroid SELinux label failures on system.img
 PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init.arm64:recovery/root/system/bin/init \
+    $(DEVICE_PATH)/configs/init.arm64:recovery/root/first_stage_ramdisk/system/bin/init \
     $(DEVICE_PATH)/configs/rootdir/proc/.keep:recovery/root/proc/.keep \
     $(DEVICE_PATH)/configs/rootdir/sys/.keep:recovery/root/sys/.keep \
     $(DEVICE_PATH)/configs/rootdir/mnt/.keep:recovery/root/mnt/.keep \
