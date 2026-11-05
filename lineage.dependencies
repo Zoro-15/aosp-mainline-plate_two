@@ -1,18 +1,52 @@
 [
   {
     "repository": "me-cafebabe-aosp-mainline/android_device_mainline_common",
-    "target_path": "device/mainline/common"
-  },
-  {
-    "repository": "me-cafebabe-aosp-mainline/android_device_mainline_qcom-common",
-    "target_path": "device/mainline/qcom-common"
+    "target_path": "device/mainline/common",
+    "branch": "lineage-24.0"
   },
   {
     "repository": "me-cafebabe-aosp-mainline/android_hardware_mainline_common",
-    "target_path": "hardware/mainline/common"
+    "target_path": "hardware/mainline/common",
+    "branch": "lineage-24.0"
   },
   {
-    "repository": "me-cafebabe-aosp-mainline/android_hardware_mainline_qcom",
-    "target_path": "hardware/mainline/qcom"
+    "repository": "me-cafebabe-aosp-mainline/android_kernel_mainline_configs",
+    "target_path": "kernel/mainline/configs",
+    "branch": "lineage-24.0"
+  },
+  {
+    "repository": "me-cafebabe-aosp-mainline/android_vendor_mainline",
+    "target_path": "vendor/mainline",
+    "branch": "lineage-24.0"
+  },
+  {
+    "repository": "LineageOS/android_external_alsa-lib",
+    "target_path": "external/alsa-lib",
+    "branch": "lineage-24.0"
+  },
+  {
+    "repository": "LineageOS/android_external_alsa-ucm-conf",
+    "target_path": "external/alsa-ucm-conf",
+    "branch": "lineage-24.0"
+  },
+  {
+    "repository": "LineageOS/android_external_linux-firmware-mainline",
+    "target_path": "external/linux-firmware-mainline",
+    "branch": "lineage-24.0"
+  },
+  {
+    "repository": "LineageOS/android_external_minigbm-upstream",
+    "target_path": "external/minigbm-upstream",
+    "branch": "lineage-24.0"
+  },
+  {
+    "repository": "Zoro-15/android_kernel_nokia_sdm630-mainline",
+    "target_path": "kernel/nokia/sdm630-mainline",
+    "branch": "qcom-sdm660-7.2.y"
+  },
+  {
+    "repository": "Zoro-15/vendor-nokia-pl2mainline",
+    "target_path": "vendor/nokia/PL2_mainline",
+    "branch": "lineage-24.0"
   }
 ]
