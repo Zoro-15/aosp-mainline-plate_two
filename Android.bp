@@ -1,6 +1,63 @@
+//
+// Copyright (C) 2026 The Android Open Source Project
+// Copyright (C) 2026 LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 soong_namespace {
     imports: [
         "device/mainline/common",
-        "device/mainline/qcom-common",
+        "hardware/mainline/common",
+        "kernel/mainline/configs",
     ],
+}
+
+// fstab
+prebuilt_etc {
+    name: "fstab.nokia-pl2",
+    src: "configs/fstab.nokia-pl2",
+    vendor: true,
+    ramdisk_available: true,
+}
+
+prebuilt_etc {
+    name: "fstab.qcom",
+    src: "configs/fstab.nokia-pl2",
+    vendor: true,
+    ramdisk_available: true,
+}
+
+prebuilt_etc {
+    name: "fstab.default",
+    src: "configs/fstab.nokia-pl2",
+    vendor: true,
+}
+
+// Init configuration files
+prebuilt_etc {
+    name: "init.nokia-pl2.rc",
+    src: "configs/init.nokia-pl2.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.recovery.nokia-pl2.rc",
+    src: "configs/init.recovery.nokia-pl2.rc",
+    sub_dir: "init",
+    recovery: true,
+}
+
+prebuilt_etc {
+    name: "init.recovery.qcom.rc",
+    src: "configs/init.recovery.nokia-pl2.rc",
+    sub_dir: "init",
+    recovery: true,
+}
+
+prebuilt_etc {
+    name: "ueventd.nokia-pl2.rc",
+    filename: "ueventd.rc",
+    src: "configs/ueventd.PL2_mainline.rc",
+    vendor: true,
 }
