@@ -40,6 +40,9 @@ DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlays
 # Packages & Memfd (pristine/community kernel support)
 PRODUCT_PACKAGES += \
     init_first_stage \
+    android.hardware.boot-service.qti \
+    android.hardware.boot-service.qti.recovery \
+    bootctl \
     fastbootd \
     use_memfd.rc \
     vendor_bt_firmware_mountpoint \
@@ -47,6 +50,7 @@ PRODUCT_PACKAGES += \
     vendor_firmware_mnt_mountpoint
 
 # Soong Namespaces & Configuration
+$(call soong_config_set_bool,QTI_GPT_UTILS,USE_BSG_FRAMEWORK,false)
 $(call soong_config_set,minigbm_upstream,platform,msm)
 $(call soong_config_set,minigbm,platform,msm)
 SOONG_CONFIG_minigbm_upstream_platform := msm
