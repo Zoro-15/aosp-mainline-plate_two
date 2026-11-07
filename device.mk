@@ -74,7 +74,9 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
 
 PRODUCT_PACKAGES += \
-    check_dynamic_partitions
+    check_dynamic_partitions \
+    lpdump \
+    lpflash
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \

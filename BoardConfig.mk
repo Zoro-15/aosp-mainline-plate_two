@@ -106,7 +106,9 @@ TARGET_KERNEL_CONFIG_EXT := \
 # Cmdline & Boot parameters
 # Nokia boot device block path on sdm630: soc/c0c4000.sdhci (downstream) and soc/c0c4000.mmc (mainline)
 BOARD_KERNEL_CMDLINE += \
-    androidboot.boot_devices=any,soc@0/c0c4000.mmc,soc/c0c4000.sdhci,c0c4000.mmc \
+    androidboot.boot_devices=soc@0/c0c4000.mmc,soc/c0c4000.sdhci,c0c4000.mmc \
+    androidboot.dynamic_partitions=true \
+    androidboot.retrofit_dynamic_partitions=true \
     androidboot.hardware=nokia-pl2 \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
