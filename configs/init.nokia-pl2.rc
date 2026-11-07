@@ -9,9 +9,11 @@ import /vendor/etc/init/hw/init.mainline.rc
 
 on early-init
     # Set up bootdevice symlink for mainline eMMC controller (soc@0/c0c4000.mmc)
-    wait /dev/block/platform/soc@0/c0c4000.mmc 1
+    wait /dev/block/platform/soc@0/c0c4000.mmc 10
     symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/bootdevice
+    mkdir /dev/block/platform/soc 0755 root root
     symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/platform/soc/c0c4000.sdhci
+    symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/platform/soc/c0c4000.mmc
 
 on fs
     # Mount partitions without latemount
@@ -29,6 +31,7 @@ on late-fs
 
 on init
     # Configure USB gadget controller (Mainline Linux 7.2 UDC platform device on SDM630)
+    setprop sys.usb.configfs 1
     setprop sys.usb.controller a800000.usb
     setprop vendor.usb.controller a800000.usb
 
