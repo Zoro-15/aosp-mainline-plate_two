@@ -60,4 +60,5 @@ prebuilt_etc {
     filename: "ueventd.rc",
     src: "configs/ueventd.PL2_mainline.rc",
     vendor: true,
+    recovery_available: true,
 }

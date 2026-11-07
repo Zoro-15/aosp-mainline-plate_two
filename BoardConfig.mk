@@ -178,6 +178,7 @@ BOARD_ROOT_EXTRA_SYMLINKS += \
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab.nokia-pl2
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
+TARGET_RECOVERY_UI_BLANK_UNBLANK_ON_INIT := true
 
 # Inherit proprietary vendor board configs
 -include vendor/nokia/PL2_mainline/BoardConfigVendor.mk

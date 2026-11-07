@@ -6,6 +6,12 @@
 
 # Recovery init for Nokia 6.1 (PL2) Mainline
 
+on early-init
+    # Set USB controller and force ConfigFS mode early to prevent legacy android_usb fallbacks
+    setprop sys.usb.configfs 1
+    setprop sys.usb.controller a800000.usb
+    setprop vendor.usb.controller a800000.usb
+
 on fs
     wait /dev/block/platform/soc@0/c0c4000.mmc 10
     symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/bootdevice
@@ -14,5 +20,63 @@ on fs
     symlink /dev/block/platform/soc@0/c0c4000.mmc /dev/block/platform/soc/c0c4000.mmc
 
 on init
-    setprop sys.usb.configfs 1
-    setprop sys.usb.controller a800000.usb
+    # Configure recovery UI brightness paths for PM660L WLED
+    setprop ro.recovery.ui.brightness_file /sys/class/backlight/pm660l_wled/brightness
+    setprop ro.recovery.ui.max_brightness_file /sys/class/backlight/pm660l_wled/max_brightness
+
+on boot
+    # DRM KMS node permissions for MinUI recovery graphics
+    chmod 0666 /dev/dri/card0
+    chmod 0666 /dev/dri/renderD128
+    chown system graphics /dev/dri/card0
+    chown system graphics /dev/dri/renderD128
+
+    # Backlight node permissions and initial illumination (50% brightness: 2048/4095)
+    chmod 0664 /sys/class/backlight/pm660l_wled/brightness
+    chown system system /sys/class/backlight/pm660l_wled/brightness
+    chmod 0664 /sys/class/backlight/backlight/brightness
+    chown system system /sys/class/backlight/backlight/brightness
+    write /sys/class/backlight/pm660l_wled/brightness 2048
+    write /sys/class/backlight/backlight/brightness 2048
+
+# USB ConfigFS triggers for Recovery, Sideload, and Fastbootd
+on property:sys.usb.config=none && property:sys.usb.configfs=1
+    stop adbd
+    stop fastbootd
+    write /config/usb_gadget/g1/UDC "none"
+    setprop sys.usb.ffs.ready 0
+    rm /config/usb_gadget/g1/configs/b.1/f1
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "adb"
+    write /config/usb_gadget/g1/idVendor 0x18d1
+    write /config/usb_gadget/g1/idProduct 0xd001
+    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f1
+    write /config/usb_gadget/g1/UDC a800000.usb
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=sideload && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=sideload && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "adb"
+    write /config/usb_gadget/g1/idVendor 0x18d1
+    write /config/usb_gadget/g1/idProduct 0xd001
+    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f1
+    write /config/usb_gadget/g1/UDC a800000.usb
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=fastboot && property:sys.usb.configfs=1
+    start fastbootd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=fastboot && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "fastboot"
+    write /config/usb_gadget/g1/idVendor 0x18d1
+    write /config/usb_gadget/g1/idProduct 0x4ee0
+    symlink /config/usb_gadget/g1/functions/ffs.fastboot /config/usb_gadget/g1/configs/b.1/f1
+    write /config/usb_gadget/g1/UDC a800000.usb
+    setprop sys.usb.state ${sys.usb.config}
